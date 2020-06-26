@@ -16,24 +16,24 @@
   - [Use shorter and more readable syntax where possible](#use-shorter-and-more-readable-syntax-where-possible)
   - [Use IoC container or facades instead of new Class](#use-ioc-container-or-facades-instead-of-new-class)
   - [Do not get data from the .env file directly](#do-not-get-data-from-the-env-file-directly)
+  - [Use Single action class pattern](#use-single-action-class-pattern)
 - [Coding Style Guide](#coding-style-guide)
   - [Strings](#strings)
   - [Ternary operators](#ternary-operators)
   - [If statements](#if-statements)
-      - [HAPPY PATH**](#happy-path)
+      - [HAPPY PATH](#happy-path)
       - [AVOID ELSE](#avoid-else)
       - [COMPOUND IFS](#compound-ifs)
   - [Whitespace](#whitespace)
   - [Configuration](#configuration)
   - [Artisan commands](#artisan-commands)
   - [Routing](#routing)
-  - [Controllers](#controllers)
   - [Views](#views)
   - [Blade Templates](#blade-templates)
   - [Authorization](#authorization)
   - [Translations](#translations)
   - [Naming Classes](#naming-classes)
-      - [CONTROLLERS](#controllers-1)
+      - [CONTROLLERS](#controllers)
       - [RESOURCES (AND TRANSFORMERS)](#resources-and-transformers)
       - [JOBS](#jobs)
       - [EVENTS](#events)
@@ -41,6 +41,10 @@
       - [COMMANDS](#commands)
       - [MAILABLES](#mailables)
   - [File Structure](#file-structure)
+  - [General](#general)
+  - [Databases](#databases)
+  - [Controller](#controller)
+  - [Models](#models)
 
 # Visual Studio Code Packages
 Install the following packages
@@ -301,6 +305,12 @@ $this->user->create($request->validated());
 $apiKey = config('api.key');
 ```
 
+## Use Single action class pattern
+- The main purpose of using this is to separate the application’s business logic and also to avoid direct access to the data. You may refer the full documentation [here](https://medium.com/@remi_collin/keeping-your-laravel-applications-dry-with-single-action-classes-6a950ec54d1d)
+  - File/class names should be descriptive
+  - Method names should be descriptive
+
+
 # Coding Style Guide
 
 ## Strings
@@ -320,7 +330,7 @@ $name = $isFoo ? 'foo' : 'bar';
 ```
 
 ## If statements
-#### HAPPY PATH**
+#### HAPPY PATH
   ```
   if (! $goodCondition) {
       throw new Exception;
@@ -458,17 +468,20 @@ Route::get('news/{newsItem}', 'NewsItemsController@index');
 Route::get('/', 'HomeController@index');
 Route::get('open-source', 'OpenSourceController@index');
 ```
+- Try to keep controllers simple and stick to the default CRUD keywords (`index`, `create`, `store`, `show`, `edit`, `update`, `destroy`). Extract a new controller if you need other actions.
+- Separate route files if needed (public, admin, api, etc.)
+- Proper groupings of routes to avoid confusion
+- Proper naming of routes. Do not forget to put the group and modules as prefix. Resource/module name should be plural since it refers to all.
+  > Ex:
+    > - admin.countries.{action}
+    > - admin.ajax.staff.{action}
+    > - public.home
+    > - public.ajax.countries.{action}
 
-## Controllers
-Controllers that control a resource must use the plural resource name.
-```
-class PostsController
-{
-    // ...
-}
-```
+- Check if the route already exists before creating a new one to avoid redundancy.
+- Use get and post properly.
+- Create a different session middleware for admin panel and public page
 
-Try to keep controllers simple and stick to the default CRUD keywords (`index`, `create`, `store`, `show`, `edit`, `update`, `destroy`). Extract a new controller if you need other actions.
 
 ## Views
 - Move blade files from views to templates folder
@@ -535,13 +548,28 @@ Translations must be rendered with the `__` function. We prefer using this over 
 Naming things is often seen as one of the harder things in programming. That's why we've established some high level guidelines for naming classes.
 
 #### CONTROLLERS
-Generally controllers are named by the plural form of their corresponding resource and a `Controller` suffix. This is to avoid naming collisions with models that are often equally named.
+- Generally controllers are named by the plural form of their corresponding resource and a `Controller` suffix. This is to avoid naming collisions with models that are often equally named.
 
-e.g. `UsersController` or `EventDaysController`
+        e.g. `UsersController` or `EventDaysController`
 
-When writing non-resourceful controllers you might come across invokable controllers that perform a single action. These can be named by the action they perform again suffixed by Controller.
+- When writing non-resourceful controllers you might come across invokable controllers that perform a single action. These can be named by the action they perform again suffixed by Controller.
 
-e.g. `PerformCleanupController`
+        e.g. `PerformCleanupController`
+
+- Controllers that control a resource must use the plural resource name.
+    ```
+    class PostsController
+    {
+        // ...
+    }
+    ```
+
+- **DO NOT** put logical codes on controllers, use single action classes instead.
+- Keep codes on controller skinny.
+- Use a separate controller folder for Ajax and Api.
+- Use Composer for global variables rather than inserting/attaching it to on every controller’s return view.
+- You may also refer [here](#follow-laravel-naming-conventions).
+
 
 #### RESOURCES (AND TRANSFORMERS)
 Both Eloquent resources and Fractal transformers are plural resources suffixed with `Resource` or `Transformer` accordingly. This is to avoid naming collisions with models.
@@ -586,5 +614,30 @@ e.g. `AccountActivatedMail` or `NewEventMail`
     /* User is the module name */
 
     ```
+
+## General
+- Remove unused codes
+- There should be only two compiled files for stylesheets and 
+scripts.
+    - common – applicable on all pages
+    - per page – applicable only on specific page
+- **DO NOT** put logical codes on helpers
+
+## Databases
+- Follow [naming convention](#follow-laravel-naming-conventions).
+- Use doctrine/dbal
+- In preparation for unit testing, avoid using of sql raw queries because dbal will almost do the work in order to ensure migrations will work on different data source.
+- Modifications on table that has enum will not work and thus recommended to re-create the table.
+
+## Controller
+
+## Models
+- Proper assignment of relationships especially one-to-one and one-to-many. Do not assign a one-to-one relationship that should be a one-to-many because it might confuse other developers and the codes are a little bit different.
+- Proper naming of relationships. You may also refer [here](#follow-laravel-naming-conventions).
+    - Singular - one to one
+    - Plural – one to many
+- For pivot models, extend them as Pivot rather than Model.
+- Use scopes for model-specific logic so that it’s flexible and can be reused.
+- Additional attributes should be a general data
 
 
