@@ -1,52 +1,52 @@
 # Coding Guidelines <!-- omit in toc -->
 
-- [Visual Studio Code Packages](#visual-studio-code-packages)
-- [Coding Specifications](#coding-specifications)
-  - [Single responsibility principle](#single-responsibility-principle)
-  - [Fat models, skinny controllers](#fat-models-skinny-controllers)
-  - [Validation](#validation)
-  - [Business logic should be in service class](#business-logic-should-be-in-service-class)
-  - [Don't repeat yourself (DRY)](#dont-repeat-yourself-dry)
-  - [Prefer to use Eloquent over using Query Builder and raw SQL queries. Prefer collections over arrays](#prefer-to-use-eloquent-over-using-query-builder-and-raw-sql-queries-prefer-collections-over-arrays)
-  - [Mass assignment](#mass-assignment)
-  - [Do not execute queries in Blade templates and use eager loading (N + 1 problem)](#do-not-execute-queries-in-blade-templates-and-use-eager-loading-n--1-problem)
-  - [Comment your code, but prefer descriptive method and variable names over comments](#comment-your-code-but-prefer-descriptive-method-and-variable-names-over-comments)
-  - [Use config and language files, constants instead of text in the code.](#use-config-and-language-files-constants-instead-of-text-in-the-code)
-  - [Follow Laravel naming conventions](#follow-laravel-naming-conventions)
-  - [Use shorter and more readable syntax where possible](#use-shorter-and-more-readable-syntax-where-possible)
-  - [Use IoC container or facades instead of new Class](#use-ioc-container-or-facades-instead-of-new-class)
-  - [Do not get data from the .env file directly](#do-not-get-data-from-the-env-file-directly)
-  - [Use Single action class pattern](#use-single-action-class-pattern)
-- [Coding Style Guide](#coding-style-guide)
-  - [Strings](#strings)
-  - [Ternary operators](#ternary-operators)
-  - [If statements](#if-statements)
-      - [HAPPY PATH](#happy-path)
-      - [AVOID ELSE](#avoid-else)
-      - [COMPOUND IFS](#compound-ifs)
-  - [Whitespace](#whitespace)
-  - [Configuration](#configuration)
-  - [Artisan commands](#artisan-commands)
-  - [Routing](#routing)
-  - [Views](#views)
-  - [Blade Templates](#blade-templates)
-  - [Authorization](#authorization)
-  - [Translations](#translations)
-  - [Naming Classes](#naming-classes)
-      - [CONTROLLERS](#controllers)
-      - [RESOURCES (AND TRANSFORMERS)](#resources-and-transformers)
-      - [JOBS](#jobs)
-      - [EVENTS](#events)
-      - [LISTENERS](#listeners)
-      - [COMMANDS](#commands)
-      - [MAILABLES](#mailables)
-  - [File Structure](#file-structure)
-  - [General](#general)
-  - [Databases](#databases)
-  - [Controller](#controller)
-  - [Models](#models)
+- [1. Visual Studio Code Packages](#1-visual-studio-code-packages)
+- [2. Coding Specifications](#2-coding-specifications)
+  - [2.1. Single responsibility principle](#21-single-responsibility-principle)
+  - [2.2. Fat models, skinny controllers](#22-fat-models-skinny-controllers)
+  - [2.3. Validation](#23-validation)
+  - [2.4. Business logic should be in service class](#24-business-logic-should-be-in-service-class)
+  - [2.5. Don't repeat yourself (DRY)](#25-dont-repeat-yourself-dry)
+  - [2.6. Prefer to use Eloquent over using Query Builder and raw SQL queries. Prefer collections over arrays](#26-prefer-to-use-eloquent-over-using-query-builder-and-raw-sql-queries-prefer-collections-over-arrays)
+  - [2.7. Mass assignment](#27-mass-assignment)
+  - [2.8. Do not execute queries in Blade templates and use eager loading (N + 1 problem)](#28-do-not-execute-queries-in-blade-templates-and-use-eager-loading-n--1-problem)
+  - [2.9. Comment your code, but prefer descriptive method and variable names over comments](#29-comment-your-code-but-prefer-descriptive-method-and-variable-names-over-comments)
+  - [2.10. Use config and language files, constants instead of text in the code.](#210-use-config-and-language-files-constants-instead-of-text-in-the-code)
+  - [2.11. Follow Laravel naming conventions](#211-follow-laravel-naming-conventions)
+  - [2.12. Use shorter and more readable syntax where possible](#212-use-shorter-and-more-readable-syntax-where-possible)
+  - [2.13. Use IoC container or facades instead of new Class](#213-use-ioc-container-or-facades-instead-of-new-class)
+  - [2.14. Do not get data from the .env file directly](#214-do-not-get-data-from-the-env-file-directly)
+  - [2.15. Use Single action class pattern](#215-use-single-action-class-pattern)
+- [3. Coding Style Guide](#3-coding-style-guide)
+  - [3.1. Strings](#31-strings)
+  - [3.2. Ternary operators](#32-ternary-operators)
+  - [3.3. If statements](#33-if-statements)
+      - [3.3.0.1. HAPPY PATH](#3301-happy-path)
+      - [3.3.0.2. AVOID ELSE](#3302-avoid-else)
+      - [3.3.0.3. COMPOUND IFS](#3303-compound-ifs)
+  - [3.4. Whitespace](#34-whitespace)
+  - [3.5. Configuration](#35-configuration)
+  - [3.6. Artisan commands](#36-artisan-commands)
+  - [3.7. Routing](#37-routing)
+  - [3.8. Views](#38-views)
+  - [3.9. Blade Templates](#39-blade-templates)
+  - [3.10. Authorization](#310-authorization)
+  - [3.11. Translations](#311-translations)
+  - [3.12. Naming Classes](#312-naming-classes)
+      - [3.12.0.1. CONTROLLERS](#31201-controllers)
+      - [3.12.0.2. RESOURCES (AND TRANSFORMERS)](#31202-resources-and-transformers)
+      - [3.12.0.3. JOBS](#31203-jobs)
+      - [3.12.0.4. EVENTS](#31204-events)
+      - [3.12.0.5. LISTENERS](#31205-listeners)
+      - [3.12.0.6. COMMANDS](#31206-commands)
+      - [3.12.0.7. MAILABLES](#31207-mailables)
+  - [3.13. File Structure](#313-file-structure)
+  - [3.14. General](#314-general)
+  - [3.15. Databases](#315-databases)
+  - [3.16. Controllers](#316-controllers)
+  - [3.17. Models](#317-models)
 
-# Visual Studio Code Packages
+# 1. Visual Studio Code Packages
 Install the following packages
  - php-cs-fixer
  - PHP Intelephense
@@ -55,9 +55,9 @@ Install the following packages
  - GitLens
  - php-dockblock
 
-# Coding Specifications
+# 2. Coding Specifications
 
-## Single responsibility principle
+## 2.1. Single responsibility principle
 A class and a method should have only one responsibility.
 ```
 public function getFullNameAttribute()
@@ -81,7 +81,7 @@ public function getFullNameShort()
 }
 ```
 
-## Fat models, skinny controllers
+## 2.2. Fat models, skinny controllers
 Put all DB related logic into Eloquent models or into Repository classes if you're using Query Builder or raw SQL queries
 ```
 public function index()
@@ -102,7 +102,7 @@ class Client extends Model
 }
 ```
 
-## Validation
+## 2.3. Validation
 - Move validation from controllers to Request classes. 
 - When using multiple rules for one field in a form request, avoid using |, always use array notation. Using an array notation will make it easier to apply custom rule classes to a field.
 ```
@@ -130,7 +130,7 @@ Validator::extend('organisation_type', function ($attribute, $value) {
 });
 ```
 
-## Business logic should be in service class
+## 2.4. Business logic should be in service class
 A controller must have only one responsibility, so move business logic from controllers to service classes.
 ```
 public function store(Request $request)
@@ -151,7 +151,7 @@ class ArticleService
 }
 ```
 
-## Don't repeat yourself (DRY)
+## 2.5. Don't repeat yourself (DRY)
 Reuse code when you can. SRP is helping you to avoid duplication. Also, reuse Blade templates, use Eloquent scopes etc.
 ```
 public function scopeActive($q)
@@ -172,18 +172,18 @@ public function getArticles()
 }
 ```
 
-## Prefer to use Eloquent over using Query Builder and raw SQL queries. Prefer collections over arrays
+## 2.6. Prefer to use Eloquent over using Query Builder and raw SQL queries. Prefer collections over arrays
 Eloquent allows you to write readable and maintainable code. Also, Eloquent has great built-in tools like soft deletes, events, scopes etc.
 ```
     Article::has('user.profile')->verified()->latest()->get();
 ```
 
-## Mass assignment
+## 2.7. Mass assignment
 ```
     $category->article()->create($request->validated());
 ```
 
-## Do not execute queries in Blade templates and use eager loading (N + 1 problem)
+## 2.8. Do not execute queries in Blade templates and use eager loading (N + 1 problem)
 Bad (for 100 users, 101 DB queries will be executed):
 ```
 $users = User::with('profile')->get();
@@ -195,7 +195,7 @@ $users = User::with('profile')->get();
 @endforeach
 ```
 
-## Comment your code, but prefer descriptive method and variable names over comments
+## 2.9. Comment your code, but prefer descriptive method and variable names over comments
  - Comment your code, but prefer descriptive method and variable names over comments.
  - Don't use docblocks for methods that can be fully type hinted (unless you need a description).
  - Only add a description when it provides more context than the method signature itself. Use full sentences for descriptions, including a period at the end.
@@ -239,7 +239,7 @@ class Foo
 /** @var \Spatie\Goo\Bar|null */
 ```
 
-## Use config and language files, constants instead of text in the code.
+## 2.10. Use config and language files, constants instead of text in the code.
 ```
 public function isNormal()
 {
@@ -249,7 +249,7 @@ public function isNormal()
 return back()->with('message', __('app.article_added'));
 ```
 
-## Follow Laravel naming conventions
+## 2.11. Follow Laravel naming conventions
 | What | How | Implemention |
 |------|-----|-----------|
 | Controller | singular | ArticleController |
@@ -277,13 +277,13 @@ return back()->with('message', __('app.article_added'));
 | Trait | adjective | Notifiable |
 
 
-## Use shorter and more readable syntax where possible
+## 2.12. Use shorter and more readable syntax where possible
 ```
 session('cart');
 $request->name;
 ```
 
-## Use IoC container or facades instead of new Class
+## 2.13. Use IoC container or facades instead of new Class
 new Class syntax creates tight coupling between classes and complicates testing. Use IoC container or facades instead.
 ```
 public function __construct(User $user)
@@ -296,7 +296,7 @@ public function __construct(User $user)
 $this->user->create($request->validated());
 ```
 
-## Do not get data from the .env file directly
+## 2.14. Do not get data from the .env file directly
 ```
 // config/api.php
 'key' => env('API_KEY'),
@@ -305,21 +305,21 @@ $this->user->create($request->validated());
 $apiKey = config('api.key');
 ```
 
-## Use Single action class pattern
+## 2.15. Use Single action class pattern
 - The main purpose of using this is to separate the application’s business logic and also to avoid direct access to the data. You may refer the full documentation [here](https://medium.com/@remi_collin/keeping-your-laravel-applications-dry-with-single-action-classes-6a950ec54d1d)
   - File/class names should be descriptive
   - Method names should be descriptive
 
 
-# Coding Style Guide
+# 3. Coding Style Guide
 
-## Strings
+## 3.1. Strings
 When possible prefer string interpolation above sprintf and the . operator.
 ```
 $greeting = "Hi, I am {$name}.";
 ```
 
-## Ternary operators
+## 3.2. Ternary operators
 Every portion of a ternary expression should be on its own line unless it's a really short expression.
 ```
 $result = $object instanceof Model
@@ -329,8 +329,8 @@ $result = $object instanceof Model
 $name = $isFoo ? 'foo' : 'bar';
 ```
 
-## If statements
-#### HAPPY PATH
+## 3.3. If statements
+#### 3.3.0.1. HAPPY PATH
   ```
   if (! $goodCondition) {
       throw new Exception;
@@ -339,7 +339,7 @@ $name = $isFoo ? 'foo' : 'bar';
   //do something
   ```
 
-#### AVOID ELSE
+#### 3.3.0.2. AVOID ELSE
  In general, else should be avoided because it makes code less readable. In most cases it can be refactored using early returns. This will also cause the happy path to go last, which is desirable.
   ```
   if (! $conditionBA) {
@@ -357,7 +357,7 @@ $name = $isFoo ? 'foo' : 'bar';
   // condition A and B passed
   ```
 
-#### COMPOUND IFS
+#### 3.3.0.3. COMPOUND IFS
 In general, separate if statements should be preferred over a compound condition. This makes debugging code easier.
 ```
 if (! $conditionA) {
@@ -375,7 +375,7 @@ if (! $conditionC) {
 // do stuff
 ```
 
-## Whitespace
+## 3.4. Whitespace
 Statements should have to breathe. In general always add blank lines between statements, unless they're a sequence of single-line equivalent operations. This isn't something enforceable, it's a matter of what looks best in its context.
 ```
 public function getPage($url)
@@ -414,14 +414,14 @@ if ($foo) {
 }
 ```
 
-## Configuration
+## 3.5. Configuration
 Configuration files must use kebab-case.
 ```
 config/
   pdf-generator.php
 ```
 
-## Artisan commands
+## 3.6. Artisan commands
 The names given to artisan commands should all be kebab-cased.
 ```
 php artisan delete-old-records
@@ -438,7 +438,7 @@ public function handle()
 ```
 If possible use a descriptive success message eg. `Old records deleted.`
 
-## Routing
+## 3.7. Routing
 Public-facing urls must use kebab-case.
 ```
 https://devversions.com/project/open-source
@@ -483,7 +483,7 @@ Route::get('open-source', 'OpenSourceController@index');
 - Create a different session middleware for admin panel and public page
 
 
-## Views
+## 3.8. Views
 - Move blade files from views to templates folder
 ```
 app/
@@ -506,7 +506,7 @@ class OpenSourceController
 }
 ```
 
-## Blade Templates
+## 3.9. Blade Templates
 - Indent using four spaces.
 ```
 <a href="/open-source">
@@ -520,7 +520,7 @@ class OpenSourceController
 @endif
 ```
 
-## Authorization
+## 3.10. Authorization
 - Policies must use camelCase.
 ```
 Gate::define('editPost', function ($user, $post) {
@@ -536,7 +536,7 @@ Gate::define('editPost', function ($user, $post) {
 ```
 - Try to name abilities using default CRUD words. One exception: replace show with view. A server `shows` a resource, a user `views` it.
 
-## Translations
+## 3.11. Translations
 Translations must be rendered with the `__` function. We prefer using this over `@lang` in Blade views because `__` can be used in both Blade views and regular PHP code. Here's an example:
 ```
 <h2>{{ __('newsletter.form.title') }}</h2>
@@ -544,26 +544,11 @@ Translations must be rendered with the `__` function. We prefer using this over 
 {!! __('newsletter.form.description') !!}
 ```
 
-## Naming Classes
+## 3.12. Naming Classes
 Naming things is often seen as one of the harder things in programming. That's why we've established some high level guidelines for naming classes.
 
-#### CONTROLLERS
-- Generally controllers are named by the plural form of their corresponding resource and a `Controller` suffix. This is to avoid naming collisions with models that are often equally named.
-
-        e.g. `UsersController` or `EventDaysController`
-
-- When writing non-resourceful controllers you might come across invokable controllers that perform a single action. These can be named by the action they perform again suffixed by Controller.
-
-        e.g. `PerformCleanupController`
-
-- Controllers that control a resource must use the plural resource name.
-    ```
-    class PostsController
-    {
-        // ...
-    }
-    ```
-
+#### 3.12.0.1. CONTROLLERS
+- Controllers should be in singular case, no spacing between words, and end with "Controller".Also, each word should be capitalised (i.e. BlogController, not blogcontroller).
 - **DO NOT** put logical codes on controllers, use single action classes instead.
 - Keep codes on controller skinny.
 - Use a separate controller folder for Ajax and Api.
@@ -571,36 +556,36 @@ Naming things is often seen as one of the harder things in programming. That's w
 - You may also refer [here](#follow-laravel-naming-conventions).
 
 
-#### RESOURCES (AND TRANSFORMERS)
+#### 3.12.0.2. RESOURCES (AND TRANSFORMERS)
 Both Eloquent resources and Fractal transformers are plural resources suffixed with `Resource` or `Transformer` accordingly. This is to avoid naming collisions with models.
 
-#### JOBS
+#### 3.12.0.3. JOBS
 A job's name should describe its action.
 
 E.g. `CreateUser` or `PerformDatabaseCleanup`
 
-#### EVENTS
+#### 3.12.0.4. EVENTS
 Events will often be fired before or after the actual event. This should be very clear by the tense used in their name.
 
 E.g. `ApprovingLoan` before the action is completed and `LoanApproved` after the action is completed.
 
-#### LISTENERS
+#### 3.12.0.5. LISTENERS
 Listeners will perform an action based on an incoming event. Their name should reflect that action with a `Listener` suffix. This might seem strange at first but will avoid naming collisions with jobs.
 
 E.g. `SendInvitationMailListener`
 
-#### COMMANDS
+#### 3.12.0.6. COMMANDS
 To avoid naming collisions we'll suffix commands with `Command`, so they are easiliy distinguisable from jobs.
 
 e.g. `PublishScheduledPostsCommand`
 
-#### MAILABLES
+#### 3.12.0.7. MAILABLES
 Again to avoid naming collisions we'll suffix mailables with `Mail`, as they're often used to convey an event, action or question.
 
 e.g. `AccountActivatedMail` or `NewEventMail`
 
 
-## File Structure
+## 3.13. File Structure
 - Development files should only be under `resources` folder, not under `public` folder.
 - Proper grouping of development files
   - `assets` – theme files
@@ -615,7 +600,7 @@ e.g. `AccountActivatedMail` or `NewEventMail`
 
     ```
 
-## General
+## 3.14. General
 - Remove unused codes
 - There should be only two compiled files for stylesheets and 
 scripts.
@@ -623,15 +608,16 @@ scripts.
     - per page – applicable only on specific page
 - **DO NOT** put logical codes on helpers
 
-## Databases
+## 3.15. Databases
 - Follow [naming convention](#follow-laravel-naming-conventions).
 - Use doctrine/dbal
 - In preparation for unit testing, avoid using of sql raw queries because dbal will almost do the work in order to ensure migrations will work on different data source.
 - Modifications on table that has enum will not work and thus recommended to re-create the table.
 
-## Controller
+## 3.16. Controllers
+- Refer [here](#31201-controllers)
 
-## Models
+## 3.17. Models
 - Proper assignment of relationships especially one-to-one and one-to-many. Do not assign a one-to-one relationship that should be a one-to-many because it might confuse other developers and the codes are a little bit different.
 - Proper naming of relationships. You may also refer [here](#follow-laravel-naming-conventions).
     - Singular - one to one
