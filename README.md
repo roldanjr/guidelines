@@ -625,5 +625,6 @@ scripts.
 - For pivot models, extend them as Pivot rather than Model.
 - Use scopes for model-specific logic so that it’s flexible and can be reused.
 - Additional attributes should be a general data
+- User Service pattern with single action class. You can find the detailed explanation [here](https://medium.com/@remi_collin/keeping-your-laravel-applications-dry-with-single-action-classes-6a950ec54d1d).
 
 
