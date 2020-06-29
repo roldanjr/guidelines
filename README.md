@@ -549,7 +549,7 @@ Naming things is often seen as one of the harder things in programming. That's w
 
 #### 3.12.0.1. CONTROLLERS
 - Controllers should be in singular case, no spacing between words, and end with "Controller".Also, each word should be capitalised (i.e. BlogController, not blogcontroller).
-- **DO NOT** put logical codes on controllers, use single action classes instead.
+- **DO NOT** put logical codes on controllers, use [single action classes](https://medium.com/@remi_collin/keeping-your-laravel-applications-dry-with-single-action-classes-6a950ec54d1d) instead. 
 - Keep codes on controller skinny.
 - Use a separate controller folder for Ajax and Api.
 - Use Composer for global variables rather than inserting/attaching it to on every controller’s return view.
