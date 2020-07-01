@@ -45,6 +45,8 @@
   - [3.15. Databases](#315-databases)
   - [3.16. Controllers](#316-controllers)
   - [3.17. Models](#317-models)
+  - [Services](#services)
+  - [3.18. Modules](#318-modules)
 
 # 1. Visual Studio Code Packages
 Install the following packages
@@ -53,7 +55,7 @@ Install the following packages
  - ESLint
  - Prettier
  - GitLens
- - php-dockblock
+ - php-docblock
 
 # 2. Coding Specifications
 
@@ -422,7 +424,7 @@ config/
 ```
 
 ## 3.6. Artisan commands
-The names given to artisan commands should all be kebab-cased.
+- The names given to artisan commands should all be kebab-cased.
 ```
 php artisan delete-old-records
 ```
@@ -607,6 +609,10 @@ scripts.
     - common – applicable on all pages
     - per page – applicable only on specific page
 - **DO NOT** put logical codes on helpers
+- Method name should be descriptive.
+- Use `Service Layer Design Pattern`
+- Use `single action class` in defining data services.
+- Business logic will be in services
 
 ## 3.15. Databases
 - Follow [naming convention](#follow-laravel-naming-conventions).
@@ -627,5 +633,14 @@ scripts.
 - Additional attributes should be a general data
 - User Service pattern with single action class. You can find the detailed explanation [here](https://medium.com/@remi_collin/keeping-your-laravel-applications-dry-with-single-action-classes-6a950ec54d1d).
   - Put the Service classes in `app/Services/{module-name}` folder
+
+## Services
+- Implement `Service Layer Design Pattern`
+- Use `Single Action Class` in defining data services
+- Class actions will be in `app\Services\{module-name}`
+
+## 3.18. Modules
+- Module will be in folders
+- Module folder name will be `plural`
 
 
